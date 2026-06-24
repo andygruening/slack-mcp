@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node server.js",
     "start:http": "node http-server.js",
-    "check": "node --check server.js && node --check http-server.js && node --check mcp.js"
+    "check": "node --check server.js && node --check http-server.js && node --check mcp.js && node --check mcp.test.js",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=18"

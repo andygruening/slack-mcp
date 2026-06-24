@@ -2,7 +2,7 @@
 
 Tiny MCP server that exposes one tool over stdio or HTTP:
 
-- `post_slack_message` posts text to the channel in `SLACK_CHANNEL_ID`
+- `post_slack_message` posts text to the Slack channel ID provided by the caller
 
 ## Environment
 
@@ -10,7 +10,6 @@ Set these before starting the server:
 
 ```sh
 export SLACK_BOT_TOKEN="xoxb-..."
-export SLACK_CHANNEL_ID="C0123456789"
 ```
 
 The Slack app needs `chat:write` and must be allowed to post in the target channel.
@@ -35,7 +34,6 @@ node server.js
 ```sh
 claude mcp add slack-message \
   --env SLACK_BOT_TOKEN="$SLACK_BOT_TOKEN" \
-  --env SLACK_CHANNEL_ID="$SLACK_CHANNEL_ID" \
   -- node /Users/agruning/Documents/MCP/slack-message-mcp/server.js
 ```
 
@@ -92,4 +90,13 @@ Use the beta header required by Anthropic's MCP connector:
 
 ```http
 anthropic-beta: mcp-client-2025-11-20
+```
+
+Tool call arguments:
+
+```json
+{
+  "channel": "C0123456789",
+  "text": "Hello from MCP"
+}
 ```

@@ -7,16 +7,20 @@ export const protocolVersion = "2024-11-05";
 
 export const tool = {
   name: "post_slack_message",
-  description: "Post a message to the Slack channel configured by SLACK_CHANNEL_ID.",
+  description: "Post a message to a Slack channel.",
   inputSchema: {
     type: "object",
     properties: {
+      channel: {
+        type: "string",
+        description: "Slack channel ID to post to, for example C0123456789.",
+      },
       text: {
         type: "string",
         description: "Message text to post to Slack.",
       },
     },
-    required: ["text"],
+    required: ["channel", "text"],
     additionalProperties: false,
   },
 };
@@ -62,19 +66,20 @@ export async function callTool(params) {
     throw new Error(`Unknown tool: ${params?.name}`);
   }
 
+  const channel = params.arguments?.channel;
+  if (typeof channel !== "string" || channel.trim().length === 0) {
+    throw new Error("channel must be a non-empty string");
+  }
+
   const text = params.arguments?.text;
   if (typeof text !== "string" || text.trim().length === 0) {
     throw new Error("text must be a non-empty string");
   }
 
   const token = process.env.SLACK_BOT_TOKEN;
-  const channel = process.env.SLACK_CHANNEL_ID;
 
   if (!token) {
     throw new Error("Missing SLACK_BOT_TOKEN environment variable");
-  }
-  if (!channel) {
-    throw new Error("Missing SLACK_CHANNEL_ID environment variable");
   }
 
   const response = await fetch("https://slack.com/api/chat.postMessage", {
