@@ -1,13 +1,16 @@
 {
   "name": "slack-message-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "bin": {
-    "slack-message-mcp": "./server.js"
+    "slack-message-mcp": "./server.js",
+    "slack-message-mcp-http": "./http-server.js"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:http": "node http-server.js",
+    "check": "node --check server.js && node --check http-server.js && node --check mcp.js"
   },
   "engines": {
     "node": ">=18"
